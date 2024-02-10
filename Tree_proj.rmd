@@ -68,5 +68,110 @@ Cirrhosis_Data<- read.csv("cirrhosis.csv", header=TRUE, na.strings= "NA")
 colSums(is.na(Cirrhosis_Data))
 dim(Cirrhosis_Data)
 ```
+## check for na 
+
+```{r }
+colSums(is.na(treedata))
+
+```
+```{r}
+treedata$PlantDate <- as.Date(treedata$PlantDate, format = "%m/%d/%y")
+```
+```{r}
+treedata$Subplot <- as.factor(treedata$Subplot)
+```
+
+```{r}
+summary(treedata$AMF)
+boxplot(treedata$AMF)
+```
+
+```{r}
+treedata<- treedata[ ,-16]
+```
+
+```{r}
+treedata<- treedata[ ,-22:-23]
+```
+```{r}
+str(treedata)
+```
+
+```{r}
+treedata$Event<- factor(treedata$Event)
+str(treedata$Event)
+```
+```{r}
+glimpse(treedata)
+```
+#Exploring categorical values 
+table(treedata$Species)
+table(treedata$Light_Cat)
+table(treedata$Soil)
+table(treedata$Sterile)
+table(treedata$Conspecific)
+table(treedata$Myco)
+table(treedata$SoilMyco)
+table(treedata$Event)
+
+
+```{r}
+# Histogram of Light_ISF
+hist(treedata$Light_ISF, main = "Distribution of Light_ISF", xlab = "Light_ISF")
+
+
+
+```
+
+```{r}
+# Boxplot of AMF by Species
+boxplot(AMF ~ Species, data = treedata, main = "AMF by Species", xlab = "Species", ylab = "AMF")
+
+
+```
+
+# Scatterplot of Phenolics and Lignin
+plot(treedata$Phenolics, treedata$Lignin, main = "Phenolics vs. Lignin", xlab = "Phenolics", ylab = "Lignin")
+
+
+```
+
+# Scatterplot of NSC and Light_ISF
+plot(treedata$NSC, treedata$Light_ISF, main = "NSC vs. Light_ISF", xlab = "NSC", ylab = "Light_ISF")
+```
+```{r}
+barplot(table(treedata$Species, treedata$Census), beside = TRUE, 
+        main = "Census Counts by Species", xlab = "Species", ylab = "Count", 
+        legend = rownames(table(treedata$Species, treedata$Census)))
+
+```
+
+library(ggplot2)
+ggplot(treedata, aes(x = Time, fill = Event)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Density Plot of Time by Event", x = "Time", y = "Density") +
+  theme_minimal()
+
+```
+
+```{r}
+boxplot(treedata[, c("AMF", "Phenolics", "Lignin", "NSC")], col = rainbow(4),
+        main = "Boxplot Matrix of Key Variables")
+
+```
+
+```{r}
+pairs(treedata[, c("AMF", "Phenolics", "Lignin", "NSC")], 
+      main = "Scatterplot Matrix of Key Variables")
+
+```
+```{r}
+correlation_matrix <- cor(treedata[, c("AMF", "Phenolics", "Lignin", "NSC")])
+corrplot::corrplot(correlation_matrix, method = "color", type = "upper", 
+                   addCoef.col = "black", tl.col = "black", tl.srt = 45)
+
+```
+
+
 
 
